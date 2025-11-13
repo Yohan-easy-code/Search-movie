@@ -49,11 +49,12 @@ export default function Home() {
         </div>
       </header>
       <main>
-        <div className="grid w-full grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
+        {error ? <p>Error : {error.message}</p> : null}
+        <div className="grid grid-cols-3 gap-8">
           {isLoading
             ? Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="flex flex-col gap-4">
-                  <div className="w-full h-full object-cover rounded-md shadow aspect-[2/3] skeleton"></div>
+                  <div className="w-full h-full object-cover overflow-hidden rounded-md shadow aspect-[2/3] skeleton"></div>
                   <div>
                     <p className="text-sm font-medium h-5 w-1/2 skeleton"></p>
                     <p className="text-xs font-medium h-4 w-1/3 skeleton"></p>
