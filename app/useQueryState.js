@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-function useQueryState(key, initialValue) {
+export default function useQueryState(key, initialValue) {
   const [value, setValue] = useState(initialValue);
 
   // 1️⃣ Au chargement : lire la valeur dans l’URL

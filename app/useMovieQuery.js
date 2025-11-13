@@ -1,16 +1,23 @@
 import useSWR from "swr";
 
 export default function useMovieQuery(search) {
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+  return useSWR(`movie-finder-${search}`, async () => {
+    if (search.length < 3) {
+      throw new Error("Please enter at least 3 characters");
+    }
 
-  const { data, error, isLoading } = useSWR(
-    `http://www.omdbapi.com?s=<search>&apiKey=<apiKey>`,
-    fetcher
-  );
+    const apiKey = localStorage.getItem("omdbApiKey");
+    if (!apiKey) {
+      throw new Error("invalid API Key");
+    }
 
-  if (error) return <div>échec du chargement</div>;
-  if (isLoading) return <div>chargement...</div>;
+    const url = new URL("http://www.omdbapi.com");
+    url.searchParams.set("s", search);
+    url.searchParams.set("apiKey", apiKey);
 
-  // rendu des données
-  return <div>bonjour {data.name}!</div>;
+    const json = await fetch(url.toString()).then((res) => res.json());
+    return json;
+
+    // ...
+  });
 }
